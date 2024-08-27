@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% comment %} tasks\templates\tasks\task_form.html {% endcomment %}
+{% block title %}
+  Task Form
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>
+      {% if task %}
+        Update Task
+      {% else %}
+        Create Task
+      {% endif %}
+    </h2>
+
+    <!-- Form for creating or updating a task -->
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" id="title" name="title" class="form-control" value="{% if task %}{{ task.title }}{% endif %}" required />
+        <div class="invalid-feedback">Please enter a title.</div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <textarea id="description" name="description" class="form-control" rows="4" required>
+          {% if task %}{{ task.description }}{% endif %}
+        </textarea>
+        <div class="invalid-feedback">Please enter a description.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        {% if task %}
+          Update
+        {% else %}
+          Create
+        {% endif %}
+      </button>
+    </form>
+
+    <!-- Link to return to the task list -->
+    <a href="{% url 'task_list' %}" class="btn btn-secondary mt-3">Back to Task List</a>
+  </div>
+{% endblock %}
